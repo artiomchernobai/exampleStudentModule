@@ -19,6 +19,11 @@ export class StudentsController {
         return this.studentsService.getStudentById(id);
     }
 
+    @Get(':id/groups')
+    getStudentGroups(@Param('id') id: string) {
+        return this.studentsService.getStudentGroups(id);
+    }
+
     @Post('')
     createStudent(@Body() createStudentDto: CreateStudentDto) {
         return this.studentsService.createStudent(createStudentDto);

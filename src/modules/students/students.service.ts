@@ -3,6 +3,7 @@ import { CreateStudentDto } from "./dto/create-student.dto";
 import { UpdateStudentNameDto } from "./dto/update-student-name.dto";
 import { UpdateStudentDto } from "./dto/update-student.dto";
 import { StudentsRepository } from "./students.repository";
+import { GroupsService } from "../groups/groups.service";
 
 @Injectable()
 export class StudentsService {
@@ -20,16 +21,24 @@ export class StudentsService {
         return student;
     }
 
-    createStudent(createStudentDto: CreateStudentDto) {
-        return this.studentsRepository.createStudent(createStudentDto.name, createStudentDto.age);
+    getStudentGroups(id: string) {
+        const student = this.getStudentById(id);
+        if (!student) {
+            throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
+        }
+        return this.studentsRepository.getStudentGroups(id);
     }
 
-    updateStudent(id: string, updatePostDto: CreateStudentDto) {
+    createStudent(createStudentDto: CreateStudentDto) {
+        return this.studentsRepository.createStudent(createStudentDto.name, createStudentDto.age, createStudentDto.groupId);
+    }
+
+    updateStudent(id: string, updateStudentDto: CreateStudentDto) {
         const post = this.getStudentById(id);
         if (!post) {
-            throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+            throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
-        return this.studentsRepository.updateStudent(id, updatePostDto);
+        return this.studentsRepository.updateStudent(id, updateStudentDto);
     }
 
     partiallyUpdateStudent(id: string, updateStudentNameDto: CreateStudentDto) {

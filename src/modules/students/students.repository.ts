@@ -2,20 +2,21 @@ import { Injectable } from "@nestjs/common";
 import { CreateStudentDto } from "./dto/create-student.dto";
 import { Student } from "./student.entity";
 import { UpdateStudentDto } from "./dto/update-student.dto";
+import { GroupsService } from "../groups/groups.service";
 
 @Injectable()
 export class StudentsRepository {
     private students: Student[];
 
-    constructor() {
+    constructor(private readonly groupsService: GroupsService) {
         this.initializeStudents();
     }
 
     private initializeStudents() {
         this.students = [
-            { id: '1', name: 'Student 1', age: 20 },
-            { id: '2', name: 'Student 2', age: 21 },
-            { id: '3', name: 'Student 3', age: 22 },
+            { id: '1', name: 'Student 1', age: 20 , groupId: 1},
+            { id: '2', name: 'Student 2', age: 21 , groupId: 2},
+            { id: '3', name: 'Student 3', age: 22 , groupId: 3},
         ];
     }
 
@@ -27,11 +28,20 @@ export class StudentsRepository {
         return this.students.find(student => student.id === id);
     }
 
-    createStudent(name: string, age: number){
+    getStudentGroups(id: string) {
+        const student = this.getStudentById(id);
+        if (!student) {
+            return null;
+        }
+        return this.groupsService.getGroupById(student.groupId).name
+    }
+
+    createStudent(name: string, age: number, groupId: number){
         const newStudent = {
             id: (this.students.length + 1).toString(),
             name,
-            age
+            age,
+            groupId
         };
         this.students.push(newStudent);
         return newStudent;

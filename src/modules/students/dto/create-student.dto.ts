@@ -9,4 +9,8 @@ export class CreateStudentDto {
     @ApiProperty({ example: 20, description: 'The age of the student' })
     @IsNumber()
     age: number;
+
+    @ApiProperty({ example: 'Group ID', description: 'The ID of the group the student belongs to' })
+    @IsString()
+    groupId: number;
 }
