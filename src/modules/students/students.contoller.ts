@@ -11,41 +11,41 @@ export class StudentsController {
 
     @Get()
     getAllStudents() {
-        return this.studentsService.getAllStudents();
+        return this.studentsService.getAll();
     }
 
     @Get(':id')
     getStudentById(@Param('id') id: string) {
-        return this.studentsService.getStudentById(id);
+        return this.studentsService.getById(id);
     }
 
     @Get(':id/groups')
-    getStudentGroups(@Param('id') id: string) {
-        return this.studentsService.getStudentGroups(id);
+    getGroup(@Param('id') id: string) {
+        return this.studentsService.getGroup(id);
     }
 
     @Post('')
-    createStudent(@Body() createStudentDto: CreateStudentDto) {
-        return this.studentsService.createStudent(createStudentDto);
+    create(@Body() createStudentDto: CreateStudentDto) {
+        return this.studentsService.create(createStudentDto);
     }
 
     @Put(':id')
-    updateStudent(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-        return this.studentsService.updateStudent(id, updateStudentDto);
+    update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+        return this.studentsService.update(id, updateStudentDto);
     }
 
     @Patch(':id')
-    partiallyUpdateStudent(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-        return this.studentsService.partiallyUpdateStudent(id, updateStudentDto);
+    partiallyUpdate(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+        return this.studentsService.partiallyUpdate(id, updateStudentDto);
     }
 
     @Patch(':id/update-name')
-    updateStudentName(@Param('id') id: string, @Body() updateStudentNameDto: UpdateStudentNameDto) {
-        return this.studentsService.updateStudentName(id, updateStudentNameDto.name);
+    updateName(@Param('id') id: string, @Body() updateStudentNameDto: UpdateStudentNameDto) {
+        return this.studentsService.updateName(id, updateStudentNameDto.name);
     }
 
     @Delete(':id')
-    deleteStudent(@Param('id') id: string) {
-        return this.studentsService.deleteStudent(id);
+    delete(@Param('id') id: string) {
+        return this.studentsService.delete(id);
     }
 }

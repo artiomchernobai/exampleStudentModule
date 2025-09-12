@@ -1,47 +1,51 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { UpdateGroupDto } from "./dto/update-group.dto";
 import { GroupsRepository } from "./groups.repository";
-import { create } from "domain";
+import { StudentsRepository } from "../students/students.repository";
 
 @Injectable()
 export class GroupsService {
-    constructor(private groupsRepository: GroupsRepository) {}
+    constructor(
+        private groupsRepository: GroupsRepository,
+        @Inject(forwardRef(() => StudentsRepository))
+        private studentsRepository: StudentsRepository
+    ) {}
 
-    getAllGroups() {
-        return this.groupsRepository.getAllGroups();
+    getAll() {
+        return this.groupsRepository.getAll();
     }
 
-    getGroupById(id: number) {
-        const group = this.groupsRepository.getGroupById(id);
+    getById(id: number) {
+        const group = this.groupsRepository.getById(id);
         if (!group) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return group;
+        return this.groupsRepository.getById(id);
     }
 
-    getStudentsByGroup(id: number) {
-        const group = this.getGroupById(id);
+    getStudents(id: number) {
+        const group = this.getById(id);
         if (!group) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return this.groupsRepository.getStudentsByGroup(id);
+        return this.studentsRepository.getByGroup(id);
     }
 
-    createGroup(createGroupDto: CreateGroupDto) {
-        return this.groupsRepository.createGroup(createGroupDto.id, createGroupDto.name);
+    create(createGroupDto: CreateGroupDto) {
+        return this.groupsRepository.create(createGroupDto.id, createGroupDto.name);
     }
 
-    updateGroup(id: number, updateGroupDto: UpdateGroupDto) {
-        const post = this.getGroupById(id);
+    update(id: number, updateGroupDto: UpdateGroupDto) {
+        const post = this.getById(id);
         if (!post) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return this.groupsRepository.updateGroup(id, updateGroupDto);
+        return this.groupsRepository.update(id, updateGroupDto);
     }
 
-    deleteGroup(id: number) {
-        this.getGroupById(id);
-        return this.groupsRepository.deleteGroup(id);
+    delete(id: number) {
+        this.getById(id);
+        return this.groupsRepository.delete(id);
     }
 }

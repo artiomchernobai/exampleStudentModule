@@ -9,32 +9,33 @@ export class GroupsController {
     constructor(private groupsService: GroupsService) { }
 
     @Get()
-    getAllGroups() {
-        return this.groupsService.getAllGroups();
+    // todo rename all methods and remove entity from name 
+    getAll() {
+        return this.groupsService.getAll();
     }
 
     @Get(':id')
-    getGroupById(@Param('id') id: string) {
-        return this.groupsService.getGroupById(Number(id));
+    getById(@Param('id') id: string) {
+        return this.groupsService.getById(Number(id));
     }
 
     @Get(':id/students')
-    getStudentsByGroupS(@Param('id') id: string) {
-        return this.groupsService.getStudentsByGroup(Number(id));
+    getStudents(@Param('id') groupId: string) {
+        return this.groupsService.getStudents(Number(groupId));
     }
 
     @Post('')
-    createGroup(@Body() createGroupDto: CreateGroupDto) {
-        return this.groupsService.createGroup(createGroupDto);
+    create(@Body() createGroupDto: CreateGroupDto) {
+        return this.groupsService.create(createGroupDto);
     }
 
     @Put(':id')
-    updateGroup(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
-        return this.groupsService.updateGroup(Number(id), updateGroupDto);
+    update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
+        return this.groupsService.update(Number(id), updateGroupDto);
     }
 
     @Delete(':id')
-    deleteGroup(@Param('id') id: string) {
-        return this.groupsService.deleteGroup(Number(id));
+    delete(@Param('id') id: string) {
+        return this.groupsService.delete(Number(id));
     }
 }

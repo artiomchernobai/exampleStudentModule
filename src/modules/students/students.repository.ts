@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { CreateStudentDto } from "./dto/create-student.dto";
 import { Student } from "./student.entity";
 import { UpdateStudentDto } from "./dto/update-student.dto";
@@ -8,11 +8,14 @@ import { GroupsService } from "../groups/groups.service";
 export class StudentsRepository {
     private students: Student[];
 
-    constructor(private readonly groupsService: GroupsService) {
-        this.initializeStudents();
+    constructor(
+        @Inject(forwardRef(() => GroupsService))
+        private readonly groupsService: GroupsService
+    ) {
+        this.initialize();
     }
 
-    private initializeStudents() {
+    private initialize() {
         this.students = [
             { id: '1', name: 'Student 1', age: 20 , groupId: 1},
             { id: '2', name: 'Student 2', age: 21 , groupId: 2},
@@ -20,23 +23,35 @@ export class StudentsRepository {
         ];
     }
 
-    getAllStudents(){
+    getAll(){
         return this.students;
     }
 
-    getStudentById(id: string){
+    getById(id: string){
         return this.students.find(student => student.id === id);
     }
 
-    getStudentGroups(id: string) {
-        const student = this.getStudentById(id);
+    getGroup(id: string) {
+        const student = this.getById(id);
         if (!student) {
             return null;
         }
-        return this.groupsService.getGroupById(student.groupId).name
+        const group = this.groupsService.getById(student.groupId);
+        if (!group) {
+            return null;
+        }
+        return group;
     }
 
-    createStudent(name: string, age: number, groupId: number){
+    getByGroup(id: number) {
+        const group = this.groupsService.getById(id);
+        if (!group) {
+            return null;
+        }
+        return this.getAll().filter(student => student.groupId === id);
+    }
+
+    create(name: string, age: number, groupId: number){
         const newStudent = {
             id: (this.students.length + 1).toString(),
             name,
@@ -47,7 +62,7 @@ export class StudentsRepository {
         return newStudent;
     }
     
-    updateStudent(id: string, updateStudentDto: UpdateStudentDto){
+    update(id: string, updateStudentDto: UpdateStudentDto){
         const studentIndex = this.students.findIndex(student => student.id === id);
         if(studentIndex === -1){
             return null;
@@ -57,7 +72,7 @@ export class StudentsRepository {
         return this.students[studentIndex];
     }
     
-    deleteStudent(id: string){
+    delete(id: string){
         const studentIndex = this.students.findIndex(student => student.id === id);
         if(studentIndex === -1){
             return null;

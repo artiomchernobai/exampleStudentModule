@@ -13,10 +13,10 @@ export class GroupsRepository {
         @Inject(forwardRef(() => StudentsService))
         private readonly studentsService: StudentsService
     ) {
-        this.initializeGroups();
+        this.initialize();
     }
 
-    private initializeGroups() {
+    private initialize() {
         this.groups = [
             { id: 1, name: 'Group 1' },
             { id: 2, name: 'Group 2' },
@@ -24,23 +24,15 @@ export class GroupsRepository {
         ];
     }
 
-    getAllGroups(){
+    getAll(){
         return this.groups;
     }
 
-    getGroupById(id: number){
+    getById(id: number){
         return this.groups.find(group => group.id === id);
     }
 
-    getStudentsByGroup(id: number) {
-        const group = this.getGroupById(id);
-        if (!group) {
-            return null;
-        }
-        return this.studentsService.getAllStudents().filter(student => student.groupId === id);
-    }
-
-    createGroup(id: number, name: string){
+    create(id: number, name: string){
         const newGroup = {
             id,
             name
@@ -49,7 +41,7 @@ export class GroupsRepository {
         return newGroup;
     }
 
-    updateGroup(id: number, updateGroupDto: UpdateGroupDto){
+    update(id: number, updateGroupDto: UpdateGroupDto){
         const groupIndex = this.groups.findIndex(group => group.id === id);
         if(groupIndex === -1){
             return null;
@@ -59,7 +51,7 @@ export class GroupsRepository {
         return this.groups[groupIndex];
     }
 
-    deleteGroup(id: number){
+    delete(id: number){
         const groupIndex = this.groups.findIndex(group => group.id === id);
         if(groupIndex === -1){
             return null;

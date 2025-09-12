@@ -9,57 +9,57 @@ import { GroupsService } from "../groups/groups.service";
 export class StudentsService {
     constructor(private studentsRepository: StudentsRepository) {}
 
-    getAllStudents() {
-        return this.studentsRepository.getAllStudents();
+    getAll() {
+        return this.studentsRepository.getAll();
     }
     
-    getStudentById(id: string) {
-        const student = this.studentsRepository.getStudentById(id);
+    getById(id: string) {
+        const student = this.studentsRepository.getById(id);
         if (!student) {
             throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
         return student;
     }
 
-    getStudentGroups(id: string) {
-        const student = this.getStudentById(id);
+    getGroup(id: string) {
+        const student = this.getById(id);
         if (!student) {
             throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
-        return this.studentsRepository.getStudentGroups(id);
+        return this.studentsRepository.getGroup(id);
     }
 
-    createStudent(createStudentDto: CreateStudentDto) {
-        return this.studentsRepository.createStudent(createStudentDto.name, createStudentDto.age, createStudentDto.groupId);
+    create(createStudentDto: CreateStudentDto) {
+        return this.studentsRepository.create(createStudentDto.name, createStudentDto.age, createStudentDto.groupId);
     }
 
-    updateStudent(id: string, updateStudentDto: CreateStudentDto) {
-        const post = this.getStudentById(id);
+    update(id: string, updateStudentDto: CreateStudentDto) {
+        const post = this.getById(id);
         if (!post) {
             throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
-        return this.studentsRepository.updateStudent(id, updateStudentDto);
+        return this.studentsRepository.update(id, updateStudentDto);
     }
 
-    partiallyUpdateStudent(id: string, updateStudentNameDto: CreateStudentDto) {
-        const student = this.getStudentById(id);
+    partiallyUpdate(id: string, updateStudentNameDto: CreateStudentDto) {
+        const student = this.getById(id);
         if (!student) {
             throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
-        return this.studentsRepository.updateStudent(id, updateStudentNameDto);
+        return this.studentsRepository.update(id, updateStudentNameDto);
     }
 
-    deleteStudent(id: string) {
-        this.getStudentById(id);
-        return this.studentsRepository.deleteStudent(id);
+    delete(id: string) {
+        this.getById(id);
+        return this.studentsRepository.delete(id);
     }
 
-    updateStudentName(id: string, name: string) {
-        const student = this.getStudentById(id);
+    updateName(id: string, name: string) {
+        const student = this.getById(id);
         if (!student) {
             throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
         }
         student.name = name;
-        return this.studentsRepository.updateStudent(id, student);
+        return this.studentsRepository.update(id, student);
     }
 }
