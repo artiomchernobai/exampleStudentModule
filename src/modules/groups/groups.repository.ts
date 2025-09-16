@@ -2,17 +2,13 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { Group } from "./group.entity";
 import { UpdateGroupDto } from "./dto/update-group.dto";
-import { StudentsService } from "../students/students.service";
 
 @Injectable()
 export class GroupsRepository {
 
     private groups: Group[];
 
-    constructor(
-        @Inject(forwardRef(() => StudentsService))
-        private readonly studentsService: StudentsService
-    ) {
+    constructor() {
         this.initialize();
     }
 

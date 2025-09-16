@@ -23,8 +23,20 @@ export class StudentsRepository {
         ];
     }
 
-    getAll(){
-        return this.students;
+    getAll() {
+        const groups = this.groupsService.getAll().reduce((acc, group) => {
+            acc[group.id] = group.name;
+            return acc;
+        }, {});
+
+        const fullStudentData = this.students.map(student => {
+            return {
+                ...student,
+                groupName: groups[student.groupId] || null
+            };
+        });
+
+        return fullStudentData;
     }
 
     getById(id: string){
