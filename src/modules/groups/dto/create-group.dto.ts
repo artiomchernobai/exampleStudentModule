@@ -9,4 +9,7 @@ export class CreateGroupDto {
     @ApiProperty({ example: 'Group Name:', description: 'The name of the group'})
     @IsString()
     name: string;
+
+    @ApiProperty({ example: 'Students in Group:', description: 'The students that belong to the group', required: false })
+    students?: any[];
 }

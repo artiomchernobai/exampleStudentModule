@@ -17,9 +17,9 @@ export class StudentsRepository {
 
     private initialize() {
         this.students = [
-            { id: '1', name: 'Student 1', age: 20 , groupId: 1},
-            { id: '2', name: 'Student 2', age: 21 , groupId: 2},
-            { id: '3', name: 'Student 3', age: 22 , groupId: 3},
+            { id: '1', name: 'Student 1', age: 20 , groupId: 1, group: null },
+            { id: '2', name: 'Student 2', age: 21 , groupId: 2, group: null },
+            { id: '3', name: 'Student 3', age: 22 , groupId: 3, group: null },
         ];
     }
 

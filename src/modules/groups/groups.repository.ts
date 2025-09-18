@@ -14,9 +14,9 @@ export class GroupsRepository {
 
     private initialize() {
         this.groups = [
-            { id: 1, name: 'Group 1' },
-            { id: 2, name: 'Group 2' },
-            { id: 3, name: 'Group 3' },
+            { id: 1, name: 'Group 1', students: [] },
+            { id: 2, name: 'Group 2', students: [] },
+            { id: 3, name: 'Group 3', students: [] },
         ];
     }
 
@@ -28,11 +28,11 @@ export class GroupsRepository {
         return this.groups.find(group => group.id === id);
     }
 
-    create(id: number, name: string){
-        const newGroup = {
-            id,
-            name
-        };
+    create(id: number, name: string, students: any[]){
+        const newGroup = new Group();
+        newGroup.id = id;
+        newGroup.name = name;
+        newGroup.students = students || [];
         this.groups.push(newGroup);
         return newGroup;
     }

@@ -33,7 +33,8 @@ export class GroupsService {
     }
 
     create(createGroupDto: CreateGroupDto) {
-        return this.groupsRepository.create(createGroupDto.id, createGroupDto.name);
+        const students = createGroupDto.students || []
+        return this.groupsRepository.create(createGroupDto.id, createGroupDto.name, students);
     }
 
     update(id: number, updateGroupDto: UpdateGroupDto) {
