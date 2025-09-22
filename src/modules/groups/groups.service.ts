@@ -12,41 +12,41 @@ export class GroupsService {
         private studentsRepository: StudentsRepository
     ) {}
 
-    getAll() {
-        return this.groupsRepository.getAll();
+    async getAll() {
+        return await this.groupsRepository.getAll();
     }
 
-    getById(id: number) {
-        const group = this.groupsRepository.getById(id);
+    async getById(id: number) {
+        const group = await this.groupsRepository.getById(id);
         if (!group) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return this.groupsRepository.getById(id);
+        return await this.groupsRepository.getById(id);
     }
 
-    getStudents(id: number) {
-        const group = this.getById(id);
+    async getStudents(id: number) {
+        const group = await this.getById(id);
         if (!group) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return this.studentsRepository.getByGroup(id);
+        return await this.studentsRepository.getByGroup(id);
     }
 
-    create(createGroupDto: CreateGroupDto) {
+    async create(createGroupDto: CreateGroupDto) {
         const students = createGroupDto.students || []
-        return this.groupsRepository.create(createGroupDto.id, createGroupDto.name, students);
+        return await this.groupsRepository.create(createGroupDto.id, createGroupDto.name, students);
     }
 
-    update(id: number, updateGroupDto: UpdateGroupDto) {
-        const post = this.getById(id);
+    async update(id: number, updateGroupDto: UpdateGroupDto) {
+        const post = await this.getById(id);
         if (!post) {
             throw new HttpException('Group not found', HttpStatus.NOT_FOUND);
         }
-        return this.groupsRepository.update(id, updateGroupDto);
+        return await this.groupsRepository.update(id, updateGroupDto);
     }
 
-    delete(id: number) {
-        this.getById(id);
-        return this.groupsRepository.delete(id);
+    async delete(id: number) {
+        await this.getById(id);
+        return await this.groupsRepository.delete(id);
     }
 }

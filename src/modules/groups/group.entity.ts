@@ -10,5 +10,5 @@ export class Group {
   name: string;
 
   @OneToMany(() => Student, student => student.group)
-  students: Student[] = [];
+  students: Student[] | null;
 }

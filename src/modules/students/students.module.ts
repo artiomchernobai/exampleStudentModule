@@ -5,15 +5,15 @@ import { StudentsRepository } from "./students.repository";
 import { GroupsModule } from "../groups/groups.module";
 import { GroupsService } from "../groups/groups.service";
 import { GroupsRepository } from "../groups/groups.repository";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { Student } from "./student.entity";
 
 @Module({
-    imports: [forwardRef(() => GroupsModule)],  
+    imports: [forwardRef(() => GroupsModule), TypeOrmModule.forFeature([Student])],  
     controllers: [StudentsController],
     providers: [
         StudentsService,
         StudentsRepository,
-        GroupsService,
-        GroupsRepository
     ],
     exports: [
         StudentsService,

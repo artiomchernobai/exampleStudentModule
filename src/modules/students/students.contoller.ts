@@ -10,42 +10,42 @@ export class StudentsController {
     constructor(private studentsService: StudentsService) { }
 
     @Get()
-    getAllStudents() {
-        return this.studentsService.getAll();
+    async getAllStudents() {
+        return await this.studentsService.getAll();
     }
 
     @Get(':id')
-    getStudentById(@Param('id') id: string) {
-        return this.studentsService.getById(id);
+    async getStudentById(@Param('id') id: string) {
+        return await this.studentsService.getById(id);
     }
 
     @Get(':id/groups')
-    getGroup(@Param('id') id: string) {
-        return this.studentsService.getGroup(id);
+    async getGroup(@Param('id') id: string) {
+        return await this.studentsService.getGroup(id);
     }
 
     @Post('')
-    create(@Body() createStudentDto: CreateStudentDto) {
-        return this.studentsService.create(createStudentDto);
+    async create(@Body() createStudentDto: CreateStudentDto) {
+        return await this.studentsService.create(createStudentDto);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-        return this.studentsService.update(id, updateStudentDto);
+    async update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+        return await this.studentsService.update(id, updateStudentDto);
     }
 
     @Patch(':id')
-    partiallyUpdate(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-        return this.studentsService.partiallyUpdate(id, updateStudentDto);
+    async partiallyUpdate(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+        return await this.studentsService.partiallyUpdate(id, updateStudentDto);
     }
 
     @Patch(':id/update-name')
-    updateName(@Param('id') id: string, @Body() updateStudentNameDto: UpdateStudentNameDto) {
-        return this.studentsService.updateName(id, updateStudentNameDto.name);
+    async updateName(@Param('id') id: string, @Body() updateStudentNameDto: UpdateStudentNameDto) {
+        return await this.studentsService.updateName(id, updateStudentNameDto.name);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: string) {
-        return this.studentsService.delete(id);
+    async delete(@Param('id') id: string) {
+        return await this.studentsService.delete(id);
     }
 }

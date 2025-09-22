@@ -2,57 +2,42 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { Group } from "./group.entity";
 import { UpdateGroupDto } from "./dto/update-group.dto";
+import { AppDataSource } from "../../data-source";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class GroupsRepository {
 
-    private groups: Group[];
+    private groups: Group[] = [];
 
-    constructor() {
-        this.initialize();
+    constructor(        
+        @InjectRepository(Group)
+        private groupRepository: Repository<Group>
+    ) {}
+
+    async getAll(){
+        console.log('Fetching all groups from database...', await this.groupRepository.count());
+        return await this.groupRepository.find({relations: ['students']});
     }
 
-    private initialize() {
-        this.groups = [
-            { id: 1, name: 'Group 1', students: [] },
-            { id: 2, name: 'Group 2', students: [] },
-            { id: 3, name: 'Group 3', students: [] },
-        ];
+    async getById(id: number){
+        return await this.groupRepository.findOne({
+            where: { id },
+            relations: ['students']
+        });
     }
 
-    getAll(){
-        return this.groups;
+    async create(id: number, name: string, students: any[]){
+        const group = await this.groupRepository.create({ id, name, students });
+        return await this.groupRepository.save(group);
     }
 
-    getById(id: number){
-        return this.groups.find(group => group.id === id);
+    async update(id: number, updateGroupDto: UpdateGroupDto){
+        return await this.groupRepository.update(id, updateGroupDto)
     }
 
-    create(id: number, name: string, students: any[]){
-        const newGroup = new Group();
-        newGroup.id = id;
-        newGroup.name = name;
-        newGroup.students = students || [];
-        this.groups.push(newGroup);
-        return newGroup;
-    }
-
-    update(id: number, updateGroupDto: UpdateGroupDto){
-        const groupIndex = this.groups.findIndex(group => group.id === id);
-        if(groupIndex === -1){
-            return null;
-        }
-        const updatedGroup = { ...this.groups[groupIndex], ...updateGroupDto };
-        this.groups[groupIndex] = updatedGroup;
-        return this.groups[groupIndex];
-    }
-
-    delete(id: number){
-        const groupIndex = this.groups.findIndex(group => group.id === id);
-        if(groupIndex === -1){
-            return null;
-        }
-        const deletedGroup = this.groups.splice(groupIndex, 1);
-        return deletedGroup[0];
+    async delete(id: number){
+        return await this.groupRepository.delete(id);
     }
 }
