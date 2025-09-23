@@ -15,13 +15,13 @@ export class GroupsController {
     }
 
     @Get(':id')
-    async getById(@Param('id') id: string) {
-        return await this.groupsService.getById(Number(id));
+    async getById(@Param('id') id: number) {
+        return await this.groupsService.getById(id);
     }
 
     @Get(':id/students')
-    async getStudents(@Param('id') groupId: string) {
-        return await this.groupsService.getStudents(Number(groupId));
+    async getStudents(@Param('id') groupId: number) {
+        return await this.groupsService.getStudents(groupId);
     }
 
     @Post('')
@@ -30,12 +30,12 @@ export class GroupsController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
-        return await this.groupsService.update(Number(id), updateGroupDto);
+    async update(@Param('id') id: number, @Body() updateGroupDto: UpdateGroupDto) {
+        return await this.groupsService.update(id, updateGroupDto);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: string) {
-        return await this.groupsService.delete(Number(id));
+    async delete(@Param('id') id: number) {
+        return await this.groupsService.delete(id);
     }
 }
