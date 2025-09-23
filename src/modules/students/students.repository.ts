@@ -8,7 +8,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class StudentsRepository {
-    private students: Student[];
 
     constructor(
         @InjectRepository(Student)
@@ -21,14 +20,14 @@ export class StudentsRepository {
         return await this.studentRepository.find({relations: ['group']});
     }
 
-    async getById(id: string){
+    async getById(id: number){
         return await this.studentRepository.findOne({
             where: { id: id },
             relations: ['group']
         });
     }
 
-    async getGroup(id: string) {
+    async getGroup(id: number) {
         const student = await this.getById(id);
         if (!student) {
             return null;
@@ -49,11 +48,11 @@ export class StudentsRepository {
         return await this.studentRepository.save(student);
     }
     
-    async update(id: string, updateStudentDto: UpdateStudentDto){
+    async update(id: number, updateStudentDto: UpdateStudentDto){
         return await this.studentRepository.update(id, updateStudentDto);
     }
     
-    delete(id: string){
+    delete(id: number){
         return this.studentRepository.delete(id);
     }
 }

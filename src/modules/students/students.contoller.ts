@@ -15,12 +15,12 @@ export class StudentsController {
     }
 
     @Get(':id')
-    async getStudentById(@Param('id') id: string) {
+    async getStudentById(@Param('id') id: number) {
         return await this.studentsService.getById(id);
     }
 
     @Get(':id/groups')
-    async getGroup(@Param('id') id: string) {
+    async getGroup(@Param('id') id: number) {
         return await this.studentsService.getGroup(id);
     }
 
@@ -30,22 +30,22 @@ export class StudentsController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+    async update(@Param('id') id: number, @Body() updateStudentDto: UpdateStudentDto) {
         return await this.studentsService.update(id, updateStudentDto);
     }
 
     @Patch(':id')
-    async partiallyUpdate(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+    async partiallyUpdate(@Param('id') id: number, @Body() updateStudentDto: UpdateStudentDto) {
         return await this.studentsService.partiallyUpdate(id, updateStudentDto);
     }
 
     @Patch(':id/update-name')
-    async updateName(@Param('id') id: string, @Body() updateStudentNameDto: UpdateStudentNameDto) {
+    async updateName(@Param('id') id: number, @Body() updateStudentNameDto: UpdateStudentNameDto) {
         return await this.studentsService.updateName(id, updateStudentNameDto.name);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: string) {
+    async delete(@Param('id') id: number) {
         return await this.studentsService.delete(id);
     }
 }

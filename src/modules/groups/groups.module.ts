@@ -8,14 +8,15 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Group } from "./group.entity";
 
 @Module({
-    imports: [forwardRef(() => StudentsModule), TypeOrmModule.forFeature([Group])],
-    controllers: [GroupsController],
-    providers: [
-        GroupsService,
-        GroupsRepository,
-    ],
-    exports: [
-        GroupsService,
-        GroupsRepository]
+  imports: [forwardRef(() => StudentsModule), TypeOrmModule.forFeature([Group])],
+  controllers: [GroupsController],
+  providers: [
+    GroupsService,
+    GroupsRepository
+],
+  exports: [
+    GroupsService,
+    GroupsRepository
+],
 })
 export class GroupsModule {}
